@@ -1,6 +1,7 @@
 package sqldumptocsv_test
 
 import (
+	"fmt"
 	"io/ioutil"
 	"os"
 	"testing"
@@ -21,5 +22,5 @@ func TestParse(t *testing.T) {
 		t.Error(err, "not readable aaa.sql")
 	}
 
-	sqldumptocsv.Parse(file)
+	fmt.Printf("%s", sqldumptocsv.Parse(file))
 }
