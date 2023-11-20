@@ -58,7 +58,11 @@ func parseInsertValue(str string) []string {
 }
 
 func ParseInsert(str string, topK int) Result {
-	result := Result{}
+	result := Result{
+		TableName: "",
+		Columns:   []string{},
+		Values:    [][]string{},
+	}
 	v := strings.Split(str, "VALUES\r\n\t")
 	id := strings.Split(v[0], "`")
 	values := strings.Join(v[1:], "VALUES\r\n\t")
