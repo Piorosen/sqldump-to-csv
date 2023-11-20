@@ -13,9 +13,11 @@ import (
 func main() {
 	file := flag.String("file", "", "Input SQL file.")
 	export := flag.String("to", "stdout", "export to data. (stdout, json)")
+	top := flag.Int("top", "-1", "top K")
+
 	flag.Parse()
 
-	if file == nil || export == nil {
+	if file == nil || export == nil || top == nil {
 		fmt.Println(flag.ErrHelp.Error())
 	}
 
@@ -28,7 +30,7 @@ func main() {
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-	r := sqldumptocsv.Parse(b)
+	r := sqldumptocsv.Parse(b, *top)
 	if *export == "stdout" {
 		fmt.Printf("%s\n", r)
 	} else if *export == "json" {

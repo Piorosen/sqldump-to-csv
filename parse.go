@@ -57,7 +57,7 @@ func parseInsertValue(str string) []string {
 	return result
 }
 
-func ParseInsert(str string) Result {
+func ParseInsert(str string, topK int) Result {
 	result := Result{}
 	v := strings.Split(str, "VALUES\r\n\t")
 	id := strings.Split(v[0], "`")
@@ -72,16 +72,23 @@ func ParseInsert(str string) Result {
 	// fmt.Printf("%s", id)
 	// fmt.Printf("%s", values)
 	// fmt.Printf("%s", spt)
+	if topK != -1 {
+		if topK > len(spt) {
+			topK = len(spt)
+		}
+	} else {
+		topK = len(spt)
+	}
 
-	for _, v := range spt {
-		result.Values = append(result.Values, parseInsertValue(v))
+	for i := 0; i < topK; i += 1 {
+		result.Values = append(result.Values, parseInsertValue(spt[i]))
 	}
 
 	return result
 }
 
 // parses a SQL dump file and converts it to CSV
-func Parse(sqldump []byte) []Result {
+func Parse(sqldump []byte, topK int) []Result {
 	// TODO
 
 	// split by ;
