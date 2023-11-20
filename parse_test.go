@@ -2,7 +2,7 @@ package sqldumptocsv_test
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"os"
 	"testing"
 
@@ -17,7 +17,7 @@ func TestParse(t *testing.T) {
 	}
 	defer read.Close()
 
-	file, err := ioutil.ReadAll(read)
+	file, err := io.ReadAll(read)
 	if err != nil {
 		t.Error(err, "not readable aaa.sql")
 	}
