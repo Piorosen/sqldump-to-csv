@@ -6,7 +6,8 @@
 
 ```go
 // Install
-$ go get github.com/Piorosen/sqldump-to-csv@v1.0.0
+$ go install github.com/Piorosen/sqldump-to-csv/cmd/sqldumps@v1.0.4
+$ sqldumps -file test.sql -to json
 ```
 
 ```go
