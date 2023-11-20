@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"flag"
 	"fmt"
 	"io"
@@ -11,7 +12,7 @@ import (
 
 func main() {
 	file := flag.String("file", "", "Input SQL file.")
-	export := flag.String("to", "stdout", "export to data. (stdout, json, csv)")
+	export := flag.String("to", "stdout", "export to data. (stdout, json)")
 	flag.Parse()
 
 	if file == nil || export == nil {
@@ -27,8 +28,15 @@ func main() {
 	if err != nil {
 		fmt.Println(err.Error())
 	}
-
+	r := sqldumptocsv.Parse(b)
 	if *export == "stdout" {
-		fmt.Printf("%s", sqldumptocsv.Parse(b))
+		fmt.Printf("%s\n", r)
+	} else if *export == "json" {
+		j, err := json.Marshal(r)
+		if err != nil {
+			fmt.Println(err.Error())
+		} else {
+			fmt.Println("%s\n", string(j))
+		}
 	}
 }
