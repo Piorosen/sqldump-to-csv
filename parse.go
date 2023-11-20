@@ -45,7 +45,7 @@ func strip(str string) string {
 	return strings.Trim(str, "\r\n\t ,)()")
 }
 
-func ParseInsertValue(str string) []string {
+func parseInsertValue(str string) []string {
 	result := []string{}
 	v := strip(str)
 	e := strings.Split(v, ",")
@@ -74,7 +74,7 @@ func ParseInsert(str string) Result {
 	// fmt.Printf("%s", spt)
 
 	for _, v := range spt {
-		result.Values = append(result.Values, ParseInsertValue(v))
+		result.Values = append(result.Values, parseInsertValue(v))
 	}
 
 	return result
