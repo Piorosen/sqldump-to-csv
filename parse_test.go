@@ -22,5 +22,5 @@ func TestParse(t *testing.T) {
 		t.Error(err, "not readable aaa.sql")
 	}
 
-	fmt.Printf("%s", sqldumptocsv.Parse(file))
+	fmt.Printf("%s", sqldumptocsv.Parse(file, 5))
 }

@@ -13,7 +13,7 @@ import (
 func main() {
 	file := flag.String("file", "", "Input SQL file.")
 	export := flag.String("to", "stdout", "export to data. (stdout, json)")
-	top := flag.Int("top", "-1", "top K")
+	top := flag.Int("top", -1, "top K")
 
 	flag.Parse()
 

@@ -101,7 +101,7 @@ func Parse(sqldump []byte, topK int) []Result {
 	result := []Result{}
 
 	for _, v := range texts {
-		result = append(result, ParseInsert(v))
+		result = append(result, ParseInsert(v, topK))
 	}
 
 	return result
