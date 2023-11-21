@@ -24,3 +24,19 @@ func TestParse(t *testing.T) {
 
 	fmt.Printf("%s", sqldumptocsv.Parse(file, 5))
 }
+
+func TestHomeParse(t *testing.T) {
+	// TODO
+	read, err := os.Open("chacha.sql")
+	if err != nil {
+		t.Error(err, "not found chacha.sql")
+	}
+	defer read.Close()
+
+	file, err := io.ReadAll(read)
+	if err != nil {
+		t.Error(err, "not readable chacha.sql")
+	}
+
+	fmt.Printf("%s", sqldumptocsv.Parse(file, 5))
+}
