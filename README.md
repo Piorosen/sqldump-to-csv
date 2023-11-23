@@ -6,14 +6,14 @@
 
 ```go
 // Install
-$ go install github.com/Piorosen/sqldump-to-csv/cmd/sqldumps@v1.1.1
+$ go install github.com/Piorosen/sqldump-to-object/cmd/sqldumps@v1.1.1
 $ sqldumps -file test.sql -to json
 ```
 
 ```go
 package main
 
-import sqldumptocsv "github.com/Piorosen/sqldump-to-csv"
+import sqldumptocsv "github.com/Piorosen/sqldump-to-object"
 
 func main() { 
     file, _ := os.Open("test.sql")
