@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	sqldumptocsv "github.com/Piorosen/sqldump-to-csv"
+	"github.com/blastrain/vitess-sqlparser/sqlparser"
 )
 
 func TestParse(t *testing.T) {
@@ -39,4 +40,12 @@ func TestHomeParse(t *testing.T) {
 	}
 
 	fmt.Printf("%s", sqldumptocsv.Parse(file, 5))
+}
+
+func TestLibr(t *testing.T) {
+	data, err := sqlparser.Parse("SELECT * FROM TEST")
+	if err != nil {
+		t.Error(err, "not found chacha.sql")
+	}
+	fmt.Printf("stmt : %+v", data)
 }
