@@ -1,4 +1,4 @@
-package sqldumptocsv
+package sqldumptoobject
 
 type Result struct {
 	TableName string

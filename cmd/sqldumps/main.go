@@ -7,7 +7,7 @@ import (
 	"io"
 	"os"
 
-	sqldumptocsv "github.com/Piorosen/sqldump-to-csv"
+	sqldumptocsv "github.com/Piorosen/sqldump-to-object"
 )
 
 func main() {
