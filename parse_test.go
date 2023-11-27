@@ -34,7 +34,7 @@ func TestLibr(t *testing.T) {
 		t.Error(err, "not found test.sql")
 	}
 
-	fmt.Printf("%s\n", ss.(*sqlparser.Insert).Table.Name)
+	fmt.Printf("%s\n", ss.(*sqlparser.CreateTable).DDL.NewName.Name)
 
 	// // data.Format()
 	// // sqlparser.ColName
