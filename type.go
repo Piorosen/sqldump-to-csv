@@ -7,9 +7,11 @@ import (
 )
 
 type Table struct {
-	TableName string
-	Columns   []string
-	Value     [][]string
+	TableName    string
+	Columns      []string
+	Value        [][]string
+	Type         []string
+	DefaultValue []*string
 }
 
 func ConvertTable(query string) (*Table, error) {
@@ -21,13 +23,25 @@ func ConvertTable(query string) (*Table, error) {
 	t := table.(*sqlparser.CreateTable)
 
 	c := []string{}
+	typ := []string{}
+	defa := []*string{}
 	for _, v := range t.Columns {
 		c = append(c, v.Name)
+		typ = append(typ, v.Type)
+		var de *string = nil
+		for _, o := range v.Options {
+			if o.Type == sqlparser.ColumnOptionDefaultValue {
+				de = &o.Value
+			}
+		}
+		defa = append(defa, de)
 	}
 
 	return &Table{
-		TableName: t.NewName.Name.String(),
-		Columns:   c,
+		TableName:    t.NewName.Name.String(),
+		Columns:      c,
+		Type:         typ,
+		DefaultValue: defa,
 	}, nil
 }
 

@@ -1,5 +1,7 @@
 # Mariadb SQL Dump file to Object in memory.
 
+# This Project is Deprecated!!!
+
 ## Intoduce
 
 ## How Use?
