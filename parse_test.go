@@ -4,21 +4,16 @@ import (
 	"fmt"
 	"testing"
 
-	"github.com/blastrain/vitess-sqlparser/sqlparser"
+	sqlldump "github.com/Piorosen/sqldump-to-object"
 )
 
 func TestLibr(t *testing.T) {
 	// sql, err := os.Open("test.sql")
 	// sqldumptocsv
 	// Parse
-	data, err := sqlparser.Parse("INSERT INTO `member` VALUES (10,'test','test','test','/src/assets/noProfile.png'),(11,'test1','test1','test1','/src/assets/noProfile.png'),(12,'test2','test2','test2','/src/assets/noProfile.png'),(13,'test3','test3','test3','/src/assets/noProfile.png'),(14,'test4','test4','test4','/src/assets/noProfile.png'),(15,'guddnr0421@naver.com','이형욱','752MBNTQFZ','/src/assets/noProfile.png');")
 	// data.(*sqlparser.Insert)
-	if err != nil {
-		t.Error(err, "not found test.sql")
-	}
-	fmt.Printf("%s\n", data.(*sqlparser.Insert).Table.Name)
 
-	ss, err := sqlparser.Parse("CREATE TABLE `user` ( " +
+	ta, err := sqlldump.ConvertTable("CREATE TABLE `user` ( " +
 		"		`userId` varchar(30) NOT NULL COMMENT '유저아이디', " +
 		"		`userName` text NOT NULL COMMENT '유저이름', " +
 		"		`userEmail` text NOT NULL COMMENT '유저이메일', " +
@@ -34,7 +29,13 @@ func TestLibr(t *testing.T) {
 		t.Error(err, "not found test.sql")
 	}
 
-	fmt.Printf("%s\n", ss.(*sqlparser.CreateTable).DDL.NewName.Name)
+	ta, err = sqlldump.ConvertInsert(ta, "INSERT INTO `member` VALUES (10,'test','test','test','/src/assets/noProfile.png'),(11,'test1','test1','test1','/src/assets/noProfile.png'),(12,'test2','test2','test2','/src/assets/noProfile.png'),(13,'test3','test3','test3','/src/assets/noProfile.png'),(14,'test4','test4','test4','/src/assets/noProfile.png'),(15,'guddnr0421@naver.com','이형욱','752MBNTQFZ','/src/assets/noProfile.png');")
+
+	fmt.Printf("%s\n", ta)
+
+	if err != nil {
+		t.Error(err, "not found test.sql")
+	}
 
 	// // data.Format()
 	// // sqlparser.ColName
