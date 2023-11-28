@@ -1,7 +1,6 @@
 package sqldumptoobject_test
 
 import (
-	"fmt"
 	"testing"
 
 	sqlldump "github.com/Piorosen/sqldump-to-object"
@@ -26,52 +25,48 @@ func TestLibr(t *testing.T) {
 		"	  ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='유저정보';")
 
 	if err != nil {
-		t.Error(err, "not found test.sql")
+		t.Error(err, "not found test.sql", err)
 	}
 
 	ta, err = sqlldump.ConvertInsert(ta, "INSERT INTO `member` VALUES (10,'test','test','test','/src/assets/noProfile.png'),(11,'test1','test1','test1','/src/assets/noProfile.png'),(12,'test2','test2','test2','/src/assets/noProfile.png'),(13,'test3','test3','test3','/src/assets/noProfile.png'),(14,'test4','test4','test4','/src/assets/noProfile.png'),(15,'guddnr0421@naver.com','이형욱','752MBNTQFZ','/src/assets/noProfile.png');")
 
-	fmt.Printf("%s\n", ta)
-
 	if err != nil {
-		t.Error(err, "not found test.sql")
+		t.Error(err, "not found test.sql", err)
 	}
-
-	// // data.Format()
-	// // sqlparser.ColName
-	// fmt.Printf("stmt : %+v", data)
 }
 
-// CREATE TABLE `user` (
-// 	`userId` varchar(30) NOT NULL COMMENT '유저아이디',
-// 	`userName` text NOT NULL COMMENT '유저이름',
-// 	`userEmail` text NOT NULL COMMENT '유저이메일',
-// 	`userPass` text NOT NULL COMMENT '유저비번',
-// 	`userSex` text DEFAULT NULL COMMENT '유저성별',
-// 	`userWeight` int(11) DEFAULT NULL COMMENT '유저몸무게',
-// 	`userHeight` int(11) DEFAULT NULL COMMENT '유저키',
-// 	`userBirthday` date DEFAULT NULL COMMENT '유저생년월일',
-// 	`userProfile` text DEFAULT NULL COMMENT '유저프로필이미지경로'
-//   ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='유저정보';
+func TestWithgTableId(t *testing.T) {
+	create := "CREATE TABLE IF NOT EXISTS `User` ( " +
+		"	`id` int(11) NOT NULL AUTO_INCREMENT," +
+		"	`std_id` varchar(10) NOT NULL DEFAULT ''," +
+		"	`name` varchar(50) NOT NULL," +
+		"	`nickname` varchar(50) NOT NULL DEFAULT ''," +
+		"	`password` varchar(513) NOT NULL DEFAULT ''," +
+		"	`department` varchar(30) NOT NULL DEFAULT ''," +
+		"	`email` varchar(321) NOT NULL DEFAULT ''," +
+		"	`sign_up` datetime NOT NULL DEFAULT current_timestamp()," +
+		"	`authority` int(11) NOT NULL DEFAULT 0," +
+		"	`hide` int(11) NOT NULL DEFAULT 0," +
+		"	PRIMARY KEY (`id`)," +
+		"	UNIQUE KEY `std_id` (`std_id`)" +
+		"  ) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;"
 
-// CREATE TABLE IF NOT EXISTS `Container_Management` (
-// 	`id` int(11) NOT NULL AUTO_INCREMENT,
-// 	`submit_id` int(11) DEFAULT NULL,
-// 	`status` int(11) DEFAULT NULL,
-// 	`container_id` varchar(32) NOT NULL,
-// 	`create_time` timestamp NOT NULL DEFAULT current_timestamp() ON UPDATE current_timestamp(),
-// 	`delete_time` timestamp NOT NULL DEFAULT '0000-00-00 00:00:00',
-// 	PRIMARY KEY (`id`) USING BTREE,
-// 	KEY `FK_Container_Management_Submit` (`submit_id`),
-// 	KEY `FK_Container_Management_Container_Status` (`status`),
-// 	CONSTRAINT `FK_Container_Management_Container_Status` FOREIGN KEY (`status`) REFERENCES `Container_Status` (`id`) ON UPDATE NO ACTION,
-// 	CONSTRAINT `FK_Container_Management_Submit` FOREIGN KEY (`submit_id`) REFERENCES `Submit` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-//   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci COMMENT='와! 이것은 컨테이너를 관리합니다.';
+	insert := "INSERT INTO `User` (`id`, `std_id`, `name`, `nickname`, `password`, `department`, `email`, `sign_up`, `authority`, `hide`) VALUES " +
+		" (0, 'sys_admin', '관리자', 'sys_admin', '$2b$12$r1Xff2/rcRSSowW0hWsXi.QNxAny3s9H0qdTK5625LJKelz8CjFKy', '관라자', 'admin@admin.com', '2023-11-20 00:18:02', 0, 1), " +
+		" (1, '20193156', '정민규', 'mQueue', '$2b$12$pIj2js8HWT6v/N0Ifv3/zeKX0GXpm9aXQIEjS5p.f4xKD79S9ITT2', '응용소프트웨어공학', 'tomorrow9913@gmail.com', '2023-11-17 16:29:14', 0, 0), " +
+		" (2, '20203218', '림미선', 'temp', '$2b$12$r1Xff2/rcRSSowW0hWsXi.QNxAny3s9H0qdTK5625LJKelz8CjFKy', '응용소프트웨어공학', 'user@example.com', '2023-11-18 06:51:56', 0, 0), " +
+		" (4, 'testtest', 'testtest', 'testtest', '$2b$12$E4sQQl5K1vnjJYuq2.Cnuuk.5b4VFyaD2PHdDmYusa9GcNr.WFrVe', 'testtest', 'testtest@testtest.com', '2023-11-19 17:26:12', 1, 0), " +
+		" (5, '11111111', '11111111', '11111111', '$2b$12$Er8k6f2cvk6G.bm2c8Q4DuAXDgtl5dsiQs9LR04s90pLvOTcytPHG', '11111111', '11111111@gmail.com', '2023-11-19 17:35:58', 1, 0), " +
+		" (6, '22222222', '22222222', '22222222', '$2b$12$BAXWP409nz/7nohwavRYZeLrtWxmvbOUOpCJJD1ctlZn9g0gcfAsG', '22222222', '22222222@gmail.com', '2023-11-19 17:36:56', 1, 0), " +
+		" (7, '33333333', '33333333', '33333333', '$2b$12$snMMnk2EX4N7F9h6jdoaz.432HQSztYvwxZPpMqMQhb.PupaDLAma', '33333333', '33333333@33333333.com', '2023-11-19 17:39:17', 1, 0); "
 
-// INSERT INTO `member` VALUES (10,'test','test','test','/src/assets/noProfile.png'),(11,'test1','test1','test1','/src/assets/noProfile.png'),(12,'test2','test2','test2','/src/assets/noProfile.png'),(13,'test3','test3','test3','/src/assets/noProfile.png'),(14,'test4','test4','test4','/src/assets/noProfile.png'),(15,'guddnr0421@naver.com','이형욱','752MBNTQFZ','/src/assets/noProfile.png');
+	table, err := sqlldump.ConvertTable(create)
+	if err != nil {
+		t.Error(err, "fail to convert table", err)
+	}
 
-// INSERT INTO `usermeasuredata` (`measureId`, `userId`, `deviceType`, `deviceAddress`, `measureTime`, `elapsedTime`, `totalDistance`, `instananeousPace`) VALUES
-// ('measure_1650697217438', 'tjdgns52', 'XEBROW', 'D4:58:C8:93:C3:12', '2022-04-23 16:00:17', 141, 209, 166),
-// ('measure_1650697453247', 'tjdgns53', 'XEBROW', 'D4:58:C8:93:C3:12', '2022-04-23 16:04:13', 261, 1386, 275),
-// ('measure_1650703475104', 'tjdgns52', 'XEBROW', 'D4:58:C8:93:C3:12', '2022-04-23 17:44:35', 18, 43, 244),
-// ('measure_1651227662851', 'tjdgns52', 'XEBROW', 'E9:0C:19:FC:59:12', '2022-04-29 19:21:02', 169, 659, 123);
+	table, err = sqlldump.ConvertInsert(table, insert)
+	if err != nil {
+		t.Error(err, "fail to insert data", err)
+	}
+}
